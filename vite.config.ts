@@ -1,4 +1,5 @@
 import { defineConfig } from "vitest/config";
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
   build: {
@@ -6,16 +7,25 @@ export default defineConfig({
       entry: "src/index.ts",
       name: "wix-twix",
       fileName: (format) => `${format}/index.js`,
-      formats: ["es", "cjs"],
     },
     rollupOptions: {
       external: [],
-      output: {
-        globals: {
-          // Provide global variables to use in the UMD build
-          // for externalized deps
+      output: [
+        {
+          dir: "dist/es",
+          format: "esm",
+          entryFileNames: "[name].js",
+          chunkFileNames: "chunks/[name].js",
+          preserveModules: true,
         },
-      },
+        {
+          dir: "dist/cjs",
+          format: "cjs",
+          entryFileNames: "[name].js",
+          chunkFileNames: "chunks/[name].js",
+          preserveModules: true,
+        },
+      ],
     },
     sourcemap: true,
     minify: "esbuild",
@@ -31,4 +41,9 @@ export default defineConfig({
     include: ["tests/**/*.test.ts"], // Specify test file patterns
     exclude: ["node_modules", "dist"], // Exclude folders
   },
+  plugins: [
+    dts({
+      outDir: ["dist/es", "dist/cjs"],
+    }),
+  ],
 });
