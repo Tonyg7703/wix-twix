@@ -5,7 +5,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       name: "wix-twix",
-      fileName: (format) => `wix-twix.${format}.js`,
+      fileName: (format) => `${format}/index.js`,
       formats: ["es", "cjs"],
     },
     rollupOptions: {
@@ -17,13 +17,18 @@ export default defineConfig({
         },
       },
     },
+    sourcemap: true,
+    minify: "esbuild",
   },
   test: {
     globals: true,
     environment: "node",
     coverage: {
-      reporter: ["text", "json", "html"],
-      exclude: [],
+      reporter: ["text", "json", "html"], // Coverage reporters
+      all: true, // Include all files for coverage (not just the tested ones)
+      exclude: ["node_modules", "dist"], // Exclude certain files/folders
     },
+    include: ["tests/**/*.test.ts"], // Specify test file patterns
+    exclude: ["node_modules", "dist"], // Exclude folders
   },
 });
