@@ -13,6 +13,7 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
+    "dev:watch": "tsx --watch src/index.ts",
     "build": "vite build",
     "preview": "vite preview",
     "eslint": "eslint .",
