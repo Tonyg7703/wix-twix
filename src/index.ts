@@ -1,2 +1,4 @@
-export { WixClient as default } from './wixClient';
+export { WixClient } from './wixClient';
 export * from './wixClient.types';
+export * from './server';
+export * from './web';
