@@ -25,3 +25,8 @@ dist-ssr
 
 # Dev Folder
 .dev
+
+# Enviroment Variables
+.env
+*.env
+.env*
