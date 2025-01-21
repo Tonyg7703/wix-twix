@@ -1,1 +1,2 @@
-console.log('Wix Twix 🍫 is running!');
+export { WixClient as default } from './wixClient';
+export * from './wixClient.types';
