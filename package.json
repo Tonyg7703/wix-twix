@@ -64,6 +64,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@types/node": "^22.10.7",
     "@wix/sdk": "^1.15.9"
   }
 }
