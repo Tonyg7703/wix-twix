@@ -6,7 +6,7 @@
     "email": "ahmedbayram23@gmail.com",
     "url": "https://github.com/Tonyg7703"
   },
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "license": "MIT",
   "main": "dist/cjs/index.js",
