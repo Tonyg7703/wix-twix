@@ -18,9 +18,11 @@
     "dev:watch": "tsx --watch src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint-staged": "lint-staged",
     "test": "vitest",
     "format": "prettier --ignore-path .prettierignore --write .",
-    "format:check": "prettier --ignore-path .prettierignore --check ."
+    "format:check": "prettier --ignore-path .prettierignore --check .",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
@@ -28,6 +30,8 @@
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.1",
     "prettier": "^3.4.2",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.20.0",

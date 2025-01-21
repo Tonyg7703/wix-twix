@@ -1,0 +1,8 @@
+#!/bin/sh
+# TODO:
+# make sure if node is not installed
+# try eval fnm env
+# then throw error: "Please install node or fnm"
+. "$(dirname "$0")/_/husky.sh"
+eval "$(fnm env)"
+npx lint-staged
