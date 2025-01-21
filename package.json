@@ -1,5 +1,6 @@
 {
   "name": "wix-twix",
+  "description": "A simple library for managing server and web Wix clients built on top of Wix SDK.",
   "author": {
     "name": "Ahmed Aziz",
     "email": "ahmedbayram23@gmail.com",
