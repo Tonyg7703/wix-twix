@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+*.lock
+*.md
+*.json
+
+.prettierignore
+.prettier
