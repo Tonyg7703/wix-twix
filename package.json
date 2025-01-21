@@ -13,10 +13,11 @@
   "module": "dist/es/index.js",
   "scripts": {
     "dev": "vite",
-    "dev:watch": "tsx --watch src/index.ts",
     "build": "vite build",
     "preview": "vite preview",
+    "dev:watch": "tsx --watch src/index.ts",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "vitest",
     "format": "prettier --ignore-path .prettierignore --write .",
     "format:check": "prettier --ignore-path .prettierignore --check ."
