@@ -4,8 +4,8 @@ import {
   type IOAuthStrategy,
   type Tokens,
 } from '@wix/sdk';
-import { WixClient } from './wixClient';
-import { WebClientEnv } from './wixClient.types';
+import { WixClient } from '../wixClient';
+import { WebClientEnv } from '../wixClient.types';
 
 export abstract class WixWebClient<
   Modules extends Descriptors,

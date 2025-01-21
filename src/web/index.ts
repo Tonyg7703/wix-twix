@@ -1,0 +1,1 @@
+export { WixWebClient } from './wixWebClient';

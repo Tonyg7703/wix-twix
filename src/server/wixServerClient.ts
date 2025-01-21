@@ -3,8 +3,8 @@ import {
   type Descriptors,
   type IApiKeyStrategy,
 } from '@wix/sdk';
-import { WixClient } from './wixClient';
-import { ServerClientEnv } from './wixClient.types';
+import { WixClient } from '../wixClient';
+import { ServerClientEnv } from '../wixClient.types';
 
 export abstract class WixServerClient<
   Modules extends Descriptors,
