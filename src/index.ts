@@ -1,1 +1,1 @@
-console.log("Wix Twix 🍫 is running!");
+console.log('Wix Twix 🍫 is running!');

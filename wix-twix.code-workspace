@@ -1,10 +1,23 @@
 {
   "folders": [
     {
-      "path": "./"
+      "path": "./",
     },
     {
-      "path": "src/"
-    }
-  ]
+      "path": "src/",
+    },
+  ],
+  "settings": {
+    // Format Settings //
+    "editor.formatOnSave": true,
+    "prettier.printWidth": 80,
+    "prettier.tabWidth": 2,
+    "prettier.useTabs": false,
+    "prettier.semi": true,
+    "prettier.singleQuote": true,
+    "prettier.trailingComma": "es5",
+    "prettier.bracketSpacing": true,
+    "prettier.endOfLine": "lf",
+    "prettier.proseWrap": "preserve"
+  },
 }
