@@ -7,6 +7,7 @@ import prettier from 'eslint-config-prettier';
 export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: globals.browser } },
+  { ignores: ['dist/*', '.dev/*'] },
   { rules: prettier.rules },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
