@@ -1,0 +1,1 @@
+export { WixServerClient } from './wixServerClient';
