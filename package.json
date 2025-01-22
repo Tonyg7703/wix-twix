@@ -24,7 +24,6 @@
     "format": "prettier --ignore-path .prettierignore --write .",
     "format:check": "prettier --ignore-path .prettierignore --check .",
     "prepare": "vite build",
-    "prepublishOnly": "vitest && eslint --fix",
     "postpublish": "echo 'Package published successfully!'"
   },
   "devDependencies": {
@@ -69,10 +68,10 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@wix/business-tools": "^1.0.74",
     "@wix/sdk": "^1.15.9"
   },
   "peerDependencies": {
+    "@wix/business-tools": "^1.0.74",
     "dotenv": "^16.4.7"
   }
 }
