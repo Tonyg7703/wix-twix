@@ -1,33 +1,29 @@
 import { locations, siteProperties } from '@wix/business-tools';
 import { WixServerClient } from '../wixServerClient';
-import type {
-  WixBusinessInfo,
-  WixBusinessModules,
-  WixBusinessProps,
-} from './wixBusiness.types';
+import type { WixBusinessModules, WixBusinessProps } from './wixBusiness.types';
 
 export class WixBusiness extends WixServerClient<WixBusinessModules> {
-  private version!: number | string;
-  props!: WixBusinessProps;
+  props: WixBusinessProps = {};
+  version!: number | string;
 
   private constructor() {
     super({ locations, siteProperties });
+  }
+
+  static async init() {
+    const instance = new WixBusiness();
+    await instance.fetchInfo();
+    return instance;
   }
 
   get name() {
     return this.props.businessName;
   }
 
-  static async init() {
-    const instance = new WixBusiness();
-    await instance.fetchInfo();
-  }
-
-  private async fetchInfo(): Promise<WixBusinessInfo> {
+  private async fetchInfo(): Promise<void> {
     const response = await this.client.siteProperties.getSiteProperties();
     this.version = response.version;
     this.props = response.properties || ({} as WixBusinessProps);
-    return response;
   }
 
   async onInfoChange() {
