@@ -39,19 +39,19 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
     return location;
   }
 
-  async onLocationUpdate() {
+  get onLocationUpdate() {
     return this.client.locations.onLocationCreated;
   }
 
-  async onLocationCreate() {
+  get onLocationCreate() {
     return this.client.locations.onLocationCreated;
   }
 
-  async onLocationArchive() {
+  get onLocationArchive() {
     return this.client.locations.onLocationArchiveStatus;
   }
 
-  async onLocationSetDefault() {
+  get onLocationSetDefault() {
     return this.client.locations.onLocationSetDefaultLocation;
   }
 
