@@ -54,4 +54,28 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
   async onLocationSetDefault() {
     return this.client.locations.onLocationSetDefaultLocation;
   }
+
+  async createLocation({
+    name,
+    description,
+    email,
+    phone,
+    fax,
+    timeZone,
+  }: Pick<
+    locations.UpdateLocation,
+    'name' | 'description' | 'phone' | 'email' | 'fax' | 'timeZone'
+  >) {
+    const newLocation = await this.client.locations.createLocation({
+      name,
+      description,
+      email,
+      phone,
+      fax,
+      timeZone,
+      address: {},
+    });
+
+    return new WixBusinessLocation(this.client, newLocation);
+  }
 }
