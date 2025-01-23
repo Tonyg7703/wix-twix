@@ -25,8 +25,10 @@ dist-ssr
 
 # Dev Folder
 .dev
+*.copy.*
 
 # Enviroment Variables
 .env
 *.env
 .env*
+

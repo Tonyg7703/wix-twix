@@ -28,13 +28,13 @@ yarn add wix-twix
 
 ## Usage
 
-### Frontend Client
+### Frontend Clients
 
 🚧 Planning ...
 
-### Backend Client
+### Backend Clients 
 
-🚧 Planning ...
+- 🏢 **[WixBusiness](docs/wix-business.md)** ( server )
 
 ## Contributing
 
@@ -46,7 +46,7 @@ All contributions welcome! Here’s how you can get started:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the **[LICENSE](LICENSE)** file for details.
 
 ---
 
