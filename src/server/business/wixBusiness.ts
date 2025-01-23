@@ -30,9 +30,28 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
       .find();
 
     const wixLocation = locationQuery.items[0];
-    if (wixLocation) return null;
+
+    if (!wixLocation) {
+      throw new Error('No default location found');
+    }
 
     const location = new WixBusinessLocation(this.client, wixLocation);
     return location;
+  }
+
+  async onLocationUpdate() {
+    return this.client.locations.onLocationCreated;
+  }
+
+  async onLocationCreate() {
+    return this.client.locations.onLocationCreated;
+  }
+
+  async onLocationArchive() {
+    return this.client.locations.onLocationArchiveStatus;
+  }
+
+  async onLocationSetDefault() {
+    return this.client.locations.onLocationSetDefaultLocation;
   }
 }
