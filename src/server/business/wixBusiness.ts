@@ -127,4 +127,26 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
     // TODO: maybe add fax validation
     this.updateContact({ fax });
   }
+
+  updateProfile(profile: siteProperties.BusinessProfileData) {
+    this.client.siteProperties.updateBusinessProfile(profile);
+  }
+
+  updateName(name: string) {
+    this.updateProfile({ businessName: name });
+  }
+
+  updateDescription(description: string) {
+    this.updateProfile({ description });
+  }
+
+  updateDisplayName(displayName: string) {
+    this.updateProfile({ siteDisplayName: displayName });
+  }
+
+  // TODO: see if url can be provided, otherwise, see if client needs to upload
+  // the logo and provide the id of the media
+  updateLogo(url: string) {
+    this.updateProfile({ logo: url });
+  }
 }
