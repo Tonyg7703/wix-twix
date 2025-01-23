@@ -1,219 +1,38 @@
+import type { WixBusinessModules } from './wixBusiness.types';
 import { locations, siteProperties } from '@wix/business-tools';
 import { WixServerClient } from '../wixServerClient';
-import type {
-  DayOfWeek,
-  BusinessHoursPeriod,
-  WixBusinessModules,
-  WixBusinessProps,
-  SpecialBusinessHoursPeriod,
-} from './wixBusiness.types';
+import { WixBusinessLocation } from './wixBusinessLocation';
 
 export class WixBusiness extends WixServerClient<WixBusinessModules> {
-  props: WixBusinessProps = {};
   version!: number | string;
-
-  private constructor() {
+  locations: locations.Location[] = [];
+  constructor() {
     super({ locations, siteProperties });
   }
 
-  static async init() {
-    const instance = new WixBusiness();
-    await instance.fetchInfo();
-    return instance;
+  async getLocationById(id: string) {
+    const wixLocation = await this.client.locations.getLocation(id);
+    const location = new WixBusinessLocation(this.client, wixLocation);
+    return location;
   }
 
-  get type() {
-    return this.props.categories?.primary;
-  }
-
-  get categories() {
-    return this.props.categories?.secondary || [];
-  }
-
-  get name() {
-    return this.props.businessName;
-  }
-
-  get street() {
-    const { streetNumber, street } = this.address || {};
-    if (!streetNumber && !street) return undefined;
-    return [streetNumber, street].filter(Boolean).join(' ');
-  }
-
-  get city() {
-    return this.address?.city;
-  }
-
-  get state() {
-    return this.address?.state;
-  }
-
-  get zip() {
-    return this.address?.zip;
-  }
-
-  get country() {
-    return this.address?.country;
-  }
-
-  get phone() {
-    return this.props.phone;
-  }
-
-  get fax() {
-    return this.props.fax;
-  }
-
-  get email() {
-    return this.props.email;
-  }
-
-  get coordinates() {
-    const { latitude, longitude } = this.address?.coordinates || {};
-    if (!latitude || !longitude) return null;
-    return [latitude, longitude];
-  }
-
-  get locale() {
-    const { country, languageCode } = this.props.locale || {};
-    if (!languageCode || !country) return null;
-    return `${languageCode}-${country}`;
-  }
-
-  get timezone() {
-    // TODO: figure out a way to take `America/New_York` from `GMT-5` or `GMT+2`
-    return this.props.timeZone;
-  }
-
-  get currency() {
-    return this.props.paymentCurrency;
-  }
-
-  get hoursOfOperation() {
-    return this.props.businessSchedule;
-  }
-
-  get isPhysical() {
-    return this.props.address?.isPhysical;
-  }
-
-  private get address() {
-    return this.props.address;
-  }
-
-  private async fetchInfo(): Promise<void> {
-    const response = await this.client.siteProperties.getSiteProperties();
-    this.version = response.version;
-    this.props = response.properties || ({} as WixBusinessProps);
-  }
-
-  get onInfoChange() {
-    return this.client.siteProperties.onPropertiesSitePropertiesUpdated;
-  }
-
-  async updateContact(contact: siteProperties.BusinessContactData) {
-    await this.client.siteProperties.updateBusinessContact(contact);
-  }
-
-  async updateAddress(address: siteProperties.Address | undefined) {
-    await this.updateContact({ address });
-  }
-
-  async updateEmail(email: string | undefined) {
-    // TODO: maybe add email validation
-    this.updateContact({ email });
-  }
-
-  async updatePhone(phone: string | undefined) {
-    // TODO: maybe add phone validation
-    await this.updateContact({ phone });
-  }
-
-  async updateFax(fax: string | undefined) {
-    // TODO: maybe add fax validation
-    await this.updateContact({ fax });
-  }
-
-  async updateProfile(profile: siteProperties.BusinessProfileData) {
-    await this.client.siteProperties.updateBusinessProfile(profile);
-  }
-
-  async updateName(name: string) {
-    await this.updateProfile({ businessName: name });
-  }
-
-  async updateDescription(description: string) {
-    await this.updateProfile({ description });
-  }
-
-  async updateDisplayName(displayName: string) {
-    await this.updateProfile({ siteDisplayName: displayName });
-  }
-
-  // TODO: see if url can be provided, otherwise, see if client needs to upload
-  // the logo and provide the id of the media
-  async updateLogo(url: string) {
-    await this.updateProfile({ logo: url });
-  }
-
-  async updateHours(
-    periods: BusinessHoursPeriod[],
-    special?: SpecialBusinessHoursPeriod[]
-  ) {
-    this.client.siteProperties.updateBusinessSchedule({
-      periods: periods.map((period) => this.getOperationPeriod(period)),
-      specialHourPeriod: special?.map((period) =>
-        this.getSpecialOperationPeriod(period)
-      ),
+  async getLocations() {
+    const { locations } = await this.client.locations.listLocations();
+    return locations.map((location) => {
+      return new WixBusinessLocation(this.client, location);
     });
   }
 
-  private getOperationPeriod({
-    openDay,
-    openTime,
-    closeDay,
-    closeTime,
-  }: BusinessHoursPeriod) {
-    return {
-      openDay: this.getDayOfWeek(openDay),
-      openTime: openTime,
-      closeDay: this.getDayOfWeek(closeDay),
-      closeTime: closeTime,
-    };
-  }
+  async getDefaultLocation() {
+    const locationQuery = await this.client.locations
+      .queryLocations()
+      .eq('default', true)
+      .find();
 
-  private getSpecialOperationPeriod({
-    startDate,
-    endDate,
-    isClosed,
-    comment,
-  }: SpecialBusinessHoursPeriod) {
-    return {
-      startDate: this.getDayOfWeek(startDate),
-      endDate: this.getDayOfWeek(endDate),
-      isClosed,
-      comment,
-    };
-  }
+    const wixLocation = locationQuery.items[0];
+    if (wixLocation) return null;
 
-  private getDayOfWeek(day: DayOfWeek) {
-    switch (day) {
-      case 'Monday':
-        return siteProperties.DayOfWeek.MONDAY;
-      case 'Tuesday':
-        return siteProperties.DayOfWeek.TUESDAY;
-      case 'Wednesday':
-        return siteProperties.DayOfWeek.WEDNESDAY;
-      case 'Thursday':
-        return siteProperties.DayOfWeek.THURSDAY;
-      case 'Friday':
-        return siteProperties.DayOfWeek.FRIDAY;
-      case 'Saturday':
-        return siteProperties.DayOfWeek.SATURDAY;
-      case 'Sunday':
-        return siteProperties.DayOfWeek.SUNDAY;
-      default:
-        throw new Error(`Invalid day of week: ${day}`);
-    }
+    const location = new WixBusinessLocation(this.client, wixLocation);
+    return location;
   }
 }
