@@ -21,6 +21,10 @@ export class WixBusinessLocation {
     return this.props.revision;
   }
 
+  private get isArchived() {
+    return this.props.archived;
+  }
+
   get id() {
     return this.props._id as string;
   }
@@ -109,6 +113,10 @@ export class WixBusinessLocation {
     locations.UpdateLocation,
     'name' | 'description' | 'phone' | 'email' | 'fax' | 'timeZone'
   >) {
+    if (this.isArchived) {
+      throw new Error('Cannot update archived location');
+    }
+
     return this.client.locations.updateLocation(this.id, {
       revision: this.revision,
       default: this.isDefault,
@@ -120,6 +128,21 @@ export class WixBusinessLocation {
       email,
       fax,
     });
+  }
+
+  async setAsDefault() {
+    if (this.isDefault) return;
+    this.client.locations.setDefaultLocation(this.id);
+  }
+
+  async archive() {
+    if (this.isArchived) return;
+
+    if (this.isDefault) {
+      throw new Error('Cannot archive default location');
+    }
+
+    return this.client.locations.archiveLocation(this.id);
   }
 
   private getHours({ openDay, openTime, closeDay, closeTime }: HoursPeriod) {
