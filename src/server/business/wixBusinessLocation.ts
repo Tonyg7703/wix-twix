@@ -17,12 +17,12 @@ export class WixBusinessLocation {
     this.props = props;
   }
 
-  get id() {
-    return this.props._id;
+  private get revision() {
+    return this.props.revision;
   }
 
-  get revision() {
-    return this.props.revision;
+  get id() {
+    return this.props._id as string;
   }
 
   get name() {
@@ -95,6 +95,30 @@ export class WixBusinessLocation {
         isClosed: period.isClosed,
         comment: period.comment,
       });
+    });
+  }
+
+  update({
+    name,
+    description,
+    email,
+    phone,
+    fax,
+    timeZone,
+  }: Pick<
+    locations.UpdateLocation,
+    'name' | 'description' | 'phone' | 'email' | 'fax' | 'timeZone'
+  >) {
+    return this.client.locations.updateLocation(this.id, {
+      revision: this.revision,
+      default: this.isDefault,
+      name: name || this.name,
+      timeZone: timeZone || this.timeZone,
+      address: this.props.address, // TODO: convert to wix format
+      description,
+      phone,
+      email,
+      fax,
     });
   }
 
