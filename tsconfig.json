@@ -31,10 +31,10 @@
     "tests",
     "vite-env.d.ts",
     "global.d.ts",
-    ".dev/data"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist/**/*",
+    ".dev/**/*"
   ]
 }

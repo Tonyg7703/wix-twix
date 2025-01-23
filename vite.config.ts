@@ -21,6 +21,7 @@ function rollupOption(format: 'esm' | 'cjs') {
   const preserveModules = true;
   const chunkFileNames = 'chunks/[name].js';
   const entryFileNames = ({ name, moduleIds }) => {
+    console.log(process.cwd());
     const { ext } = path.parse(moduleIds[0]);
     if (ext === '.ts') return `${name}.js`;
     return `${name}${ext}`;
@@ -42,7 +43,7 @@ export default defineConfig(({ command }) => {
         fileName: (format) => `${format}/index.js`,
       },
       rollupOptions: {
-        external: ['@wix/sdk'],
+        external: ['@wix/sdk', '@wix/business-tools', 'validator'],
         output: [rollupOption('esm'), rollupOption('cjs')],
       },
       sourcemap: true,
@@ -51,7 +52,7 @@ export default defineConfig(({ command }) => {
     plugins: [
       dts({
         outDir: [esmDir, cjsDir],
-        exclude: ['tests', 'node_modules', buildDir],
+        exclude: ['tests', 'node_modules', 'docs', buildDir],
       }),
     ],
   };
