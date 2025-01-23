@@ -1,6 +1,12 @@
 import { locations, siteProperties } from '@wix/business-tools';
 import { WixServerClient } from '../wixServerClient';
-import type { WixBusinessModules, WixBusinessProps } from './wixBusiness.types';
+import type {
+  DayOfWeek,
+  BusinessHoursPeriod,
+  WixBusinessModules,
+  WixBusinessProps,
+  SpecialBusinessHoursPeriod,
+} from './wixBusiness.types';
 
 export class WixBusiness extends WixServerClient<WixBusinessModules> {
   props: WixBusinessProps = {};
@@ -148,5 +154,66 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
   // the logo and provide the id of the media
   async updateLogo(url: string) {
     await this.updateProfile({ logo: url });
+  }
+
+  async updateHours(
+    periods: BusinessHoursPeriod[],
+    special?: SpecialBusinessHoursPeriod[]
+  ) {
+    this.client.siteProperties.updateBusinessSchedule({
+      periods: periods.map((period) => this.getOperationPeriod(period)),
+      specialHourPeriod: special?.map((period) =>
+        this.getSpecialOperationPeriod(period)
+      ),
+    });
+  }
+
+  private getOperationPeriod({
+    openDay,
+    openTime,
+    closeDay,
+    closeTime,
+  }: BusinessHoursPeriod) {
+    return {
+      openDay: this.getDayOfWeek(openDay),
+      openTime: openTime,
+      closeDay: this.getDayOfWeek(closeDay),
+      closeTime: closeTime,
+    };
+  }
+
+  private getSpecialOperationPeriod({
+    startDate,
+    endDate,
+    isClosed,
+    comment,
+  }: SpecialBusinessHoursPeriod) {
+    return {
+      startDate: this.getDayOfWeek(startDate),
+      endDate: this.getDayOfWeek(endDate),
+      isClosed,
+      comment,
+    };
+  }
+
+  private getDayOfWeek(day: DayOfWeek) {
+    switch (day) {
+      case 'Monday':
+        return siteProperties.DayOfWeek.MONDAY;
+      case 'Tuesday':
+        return siteProperties.DayOfWeek.TUESDAY;
+      case 'Wednesday':
+        return siteProperties.DayOfWeek.WEDNESDAY;
+      case 'Thursday':
+        return siteProperties.DayOfWeek.THURSDAY;
+      case 'Friday':
+        return siteProperties.DayOfWeek.FRIDAY;
+      case 'Saturday':
+        return siteProperties.DayOfWeek.SATURDAY;
+      case 'Sunday':
+        return siteProperties.DayOfWeek.SUNDAY;
+      default:
+        throw new Error(`Invalid day of week: ${day}`);
+    }
   }
 }
