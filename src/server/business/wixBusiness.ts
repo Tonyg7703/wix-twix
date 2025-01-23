@@ -104,4 +104,27 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
   get onInfoChange() {
     return this.client.siteProperties.onPropertiesSitePropertiesUpdated;
   }
+
+  updateContact(contact: siteProperties.BusinessContactData) {
+    this.client.siteProperties.updateBusinessContact(contact);
+  }
+
+  updateAddress(address: siteProperties.Address | undefined) {
+    this.updateContact({ address });
+  }
+
+  updateEmail(email: string | undefined) {
+    // TODO: maybe add email validation
+    this.updateContact({ email });
+  }
+
+  updatePhone(phone: string | undefined) {
+    // TODO: maybe add phone validation
+    this.updateContact({ phone });
+  }
+
+  updateFax(fax: string | undefined) {
+    // TODO: maybe add fax validation
+    this.updateContact({ fax });
+  }
 }
