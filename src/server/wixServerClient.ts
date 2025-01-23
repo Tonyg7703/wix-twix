@@ -9,7 +9,7 @@ import { ServerClientEnv } from '../wixClient.types';
 export abstract class WixServerClient<
   Modules extends Descriptors,
 > extends WixClient<Modules, IApiKeyStrategy, ServerClientEnv> {
-  constructor(modules?: Modules) {
+  constructor(modules: Modules) {
     super({ modules });
   }
 

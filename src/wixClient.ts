@@ -14,7 +14,7 @@ export abstract class WixClient<
   A extends AuthStrategy,
   E extends ClientEnv,
 > {
-  protected client: Client<M, A>;
+  client: Client<M, A>;
   protected abstract getAuthStrategy(): A;
   protected abstract getEnvVariables(): E;
 
