@@ -101,11 +101,7 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
     this.props = response.properties || ({} as WixBusinessProps);
   }
 
-  async onInfoChange() {
-    this.client.siteProperties.onPropertiesSitePropertiesUpdated(
-      ({ data, metadata }) => {
-        console.log({ data, metadata });
-      }
-    );
+  get onInfoChange() {
+    return this.client.siteProperties.onPropertiesSitePropertiesUpdated;
   }
 }
