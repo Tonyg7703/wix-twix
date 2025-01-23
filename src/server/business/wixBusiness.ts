@@ -4,8 +4,6 @@ import { WixServerClient } from '../wixServerClient';
 import { WixBusinessLocation } from './wixBusinessLocation';
 
 export class WixBusiness extends WixServerClient<WixBusinessModules> {
-  version!: number | string;
-  locations: locations.Location[] = [];
   constructor() {
     super({ locations, siteProperties });
   }
