@@ -16,8 +16,83 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
     return instance;
   }
 
+  get type() {
+    return this.props.categories?.primary;
+  }
+
+  get categories() {
+    return this.props.categories?.secondary || [];
+  }
+
   get name() {
     return this.props.businessName;
+  }
+
+  get street() {
+    const { streetNumber, street } = this.address || {};
+    if (!streetNumber && !street) return undefined;
+    return [streetNumber, street].filter(Boolean).join(' ');
+  }
+
+  get city() {
+    return this.address?.city;
+  }
+
+  get state() {
+    return this.address?.state;
+  }
+
+  get zip() {
+    return this.address?.zip;
+  }
+
+  get country() {
+    return this.address?.country;
+  }
+
+  get phone() {
+    return this.props.phone;
+  }
+
+  get fax() {
+    return this.props.fax;
+  }
+
+  get email() {
+    return this.props.email;
+  }
+
+  get coordinates() {
+    const { latitude, longitude } = this.address?.coordinates || {};
+    if (!latitude || !longitude) return null;
+    return [latitude, longitude];
+  }
+
+  get locale() {
+    const { country, languageCode } = this.props.locale || {};
+    if (!languageCode || !country) return null;
+    return `${languageCode}-${country}`;
+  }
+
+  get timezone() {
+    // TODO: figure out a way to take `America/New_York` from `GMT-5` or `GMT+2`
+    return this.props.timeZone;
+  }
+
+  get currency() {
+    return this.props.paymentCurrency;
+  }
+
+  get hoursOfOperation() {
+    return this.props.businessSchedule;
+  }
+
+  get isPhysical() {
+    return this.props.address?.isPhysical;
+  }
+
+  private get address() {
+    return this.props.address;
   }
 
   private async fetchInfo(): Promise<void> {
