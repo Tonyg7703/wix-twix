@@ -105,48 +105,48 @@ export class WixBusiness extends WixServerClient<WixBusinessModules> {
     return this.client.siteProperties.onPropertiesSitePropertiesUpdated;
   }
 
-  updateContact(contact: siteProperties.BusinessContactData) {
-    this.client.siteProperties.updateBusinessContact(contact);
+  async updateContact(contact: siteProperties.BusinessContactData) {
+    await this.client.siteProperties.updateBusinessContact(contact);
   }
 
-  updateAddress(address: siteProperties.Address | undefined) {
-    this.updateContact({ address });
+  async updateAddress(address: siteProperties.Address | undefined) {
+    await this.updateContact({ address });
   }
 
-  updateEmail(email: string | undefined) {
+  async updateEmail(email: string | undefined) {
     // TODO: maybe add email validation
     this.updateContact({ email });
   }
 
-  updatePhone(phone: string | undefined) {
+  async updatePhone(phone: string | undefined) {
     // TODO: maybe add phone validation
-    this.updateContact({ phone });
+    await this.updateContact({ phone });
   }
 
-  updateFax(fax: string | undefined) {
+  async updateFax(fax: string | undefined) {
     // TODO: maybe add fax validation
-    this.updateContact({ fax });
+    await this.updateContact({ fax });
   }
 
-  updateProfile(profile: siteProperties.BusinessProfileData) {
-    this.client.siteProperties.updateBusinessProfile(profile);
+  async updateProfile(profile: siteProperties.BusinessProfileData) {
+    await this.client.siteProperties.updateBusinessProfile(profile);
   }
 
-  updateName(name: string) {
-    this.updateProfile({ businessName: name });
+  async updateName(name: string) {
+    await this.updateProfile({ businessName: name });
   }
 
-  updateDescription(description: string) {
-    this.updateProfile({ description });
+  async updateDescription(description: string) {
+    await this.updateProfile({ description });
   }
 
-  updateDisplayName(displayName: string) {
-    this.updateProfile({ siteDisplayName: displayName });
+  async updateDisplayName(displayName: string) {
+    await this.updateProfile({ siteDisplayName: displayName });
   }
 
   // TODO: see if url can be provided, otherwise, see if client needs to upload
   // the logo and provide the id of the media
-  updateLogo(url: string) {
-    this.updateProfile({ logo: url });
+  async updateLogo(url: string) {
+    await this.updateProfile({ logo: url });
   }
 }
