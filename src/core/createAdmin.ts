@@ -1,28 +1,30 @@
 import { ApiKeyStrategy, createClient } from '@wix/sdk';
 import { merge } from '@/utils/merge';
 import type {
-  TwixModules,
-  TwixAdminType,
-  TwixAdminActions,
-  TwixAdminProps,
+  TwixProps,
+  TwixAdminAuth,
+  WixAdminClient,
+  TwixActions,
+  WixModules,
 } from './types';
 
 export function createAdmin<
-  Modules extends TwixModules,
-  Actions extends TwixAdminActions<Modules>,
+  Client extends WixAdminClient<Modules>,
+  Actions extends TwixActions<Client>,
+  Modules extends WixModules,
 >({
-  auth: authParams,
+  auth: { apiKey, siteId, accountId },
   modules = {} as Modules,
   actions = {} as Actions,
-}: TwixAdminProps<Modules, Actions>): TwixAdminType<Modules, Actions> {
-  if (!authParams.apiKey) {
+}: TwixProps<TwixAdminAuth, Modules, Actions>) {
+  if (!apiKey) {
     throw new Error('WIX_API_KEY is required for server client');
   }
 
-  if (!authParams.siteId) {
+  if (!siteId) {
     throw new Error('WIX_SITE_ID is required for server client');
   }
-  const auth = ApiKeyStrategy(authParams);
+  const auth = ApiKeyStrategy({ apiKey, siteId, accountId });
   const client = createClient({ auth, modules });
   return merge({ client, ...actions });
 }

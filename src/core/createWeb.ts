@@ -1,20 +1,22 @@
 import { createClient, OAuthStrategy } from '@wix/sdk';
 import { merge } from '@/utils/merge';
 import type {
-  TwixModules,
-  TwixWebType,
-  TwixWebActions,
-  TwixWebProps,
+  TwixActions,
+  TwixProps,
+  TwixWebAuth,
+  WixModules,
+  WixWebClient,
 } from './types';
 
 export function createWeb<
-  Modules extends TwixModules,
-  Actions extends TwixWebActions<Modules>,
+  Client extends WixWebClient<Modules>,
+  Actions extends TwixActions<Client>,
+  Modules extends WixModules,
 >({
   auth: authParams,
   modules = {} as Modules,
   actions = {} as Actions,
-}: TwixWebProps<Modules, Actions>): TwixWebType<Modules, Actions> {
+}: TwixProps<TwixWebAuth, Modules, Actions>) {
   if (!authParams.clientId) {
     throw new Error('clientId is required for web client');
   }
